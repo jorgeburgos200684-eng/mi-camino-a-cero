@@ -27,6 +27,12 @@ progress{width:100%;height:15px;accent-color:var(--green)}button{width:100%;bord
 <button class="urge" onclick="beatUrge()">💪 SUPERÉ LAS GANAS</button>
 <button class="undo" onclick="undo()">↩ Deshacer último cigarrillo</button>
 </section>
+<section class="card">
+<b>🌱 Tu progreso visual</b>
+<p class="muted">Una representación motivacional de tu camino a medida que reducís el consumo. Los cambios reales de salud varían entre personas.</p>
+<img src="progreso-visual.png" alt="Progreso visual al reducir el tabaco" style="width:100%;border-radius:16px;display:block;margin-top:12px">
+<p id="visualStage" style="text-align:center;font-weight:800;color:var(--green);font-size:19px"></p>
+</section>
 <section class="card"><div class="grid">
 <div class="tile"><span class="muted">Desde el último</span><b id="timer">—</b></div>
 <div class="tile"><span class="muted">Ganas superadas</span><b id="urges">0</b></div>
@@ -57,6 +63,9 @@ function render(){
  document.getElementById('urges').textContent=s.urges;
  let avoided=Math.max(0,possible-total);document.getElementById('avoided').textContent=avoided;document.getElementById('saved').textContent=money(avoided*COST);
  document.getElementById('week').textContent=`Semana ${weekIndex()+1}: objetivo máximo ${g} cigarrillos por día.`;
+ let pct=Math.round((1-g/BASE)*100);
+ document.getElementById('visualStage').textContent=g===0?'🏆 Meta alcanzada: 0 cigarrillos':`🌿 Reducción planificada: ${pct}% respecto del inicio`;
+
  let t='—';if(d.last){let m=Math.floor((Date.now()-d.last)/60000);t=m<60?m+' min':Math.floor(m/60)+' h '+m%60+' min'}document.getElementById('timer').textContent=t;
 }
 render();setInterval(render,30000);
