@@ -15,7 +15,7 @@ progress{width:100%;height:15px;accent-color:var(--green)}button{width:100%;bord
 .smoke{background:var(--red);color:#1d0806}.urge{background:var(--green);color:#062018}.undo{background:#29473f;color:white;font-size:14px;padding:11px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{background:#0b211c;border-radius:15px;padding:13px;text-align:center}.tile b{display:block;font-size:22px}
 .tip{line-height:1.45}.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
-</style>
+.vstage{padding:10px 3px;border-radius:12px;text-align:center;background:#0b211c;opacity:.42;font-size:22px;transition:.25s}.vstage small{display:block;font-size:9px;margin-top:5px;color:var(--muted);line-height:1.1}.vstage.active{opacity:1;outline:2px solid var(--green);transform:translateY(-2px);background:#12352b}.vstage.done{opacity:.78}</style>
 </head>
 <body><main>
 <div class="hero"><div style="font-size:42px">🚭</div><h1>Mi Camino a Cero</h1><p>De a poco. Cada cigarrillo evitado cuenta.</p></div>
@@ -29,8 +29,15 @@ progress{width:100%;height:15px;accent-color:var(--green)}button{width:100%;bord
 </section>
 <section class="card">
 <b>🌱 Tu progreso visual</b>
-<p class="muted">Una representación motivacional de tu camino a medida que reducís el consumo. Los cambios reales de salud varían entre personas.</p>
+<p class="muted">La etapa se destaca automáticamente según la meta semanal de tu plan. Es una representación motivacional; los cambios reales de salud varían entre personas.</p>
 <img src="progreso-visual.png" alt="Progreso visual al reducir el tabaco" style="width:100%;border-radius:16px;display:block;margin-top:12px">
+<div id="stageTrack" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px">
+  <div class="vstage" data-stage="0">🚬<small>Inicio</small></div>
+  <div class="vstage" data-stage="1">🌱<small>Primer avance</small></div>
+  <div class="vstage" data-stage="2">💚<small>Mejorando</small></div>
+  <div class="vstage" data-stage="3">💪<small>Gran avance</small></div>
+  <div class="vstage" data-stage="4">🏆<small>Meta cero</small></div>
+</div>
 <p id="visualStage" style="text-align:center;font-weight:800;color:var(--green);font-size:19px"></p>
 </section>
 <section class="card"><div class="grid">
@@ -65,6 +72,11 @@ function render(){
  document.getElementById('week').textContent=`Semana ${weekIndex()+1}: objetivo máximo ${g} cigarrillos por día.`;
  let pct=Math.round((1-g/BASE)*100);
  document.getElementById('visualStage').textContent=g===0?'🏆 Meta alcanzada: 0 cigarrillos':`🌿 Reducción planificada: ${pct}% respecto del inicio`;
+ let vs = g===0?4:(g<=10?3:(g<=18?2:(g<=24?1:0)));
+ document.querySelectorAll('.vstage').forEach((el,n)=>{el.classList.toggle('active',n===vs);el.classList.toggle('done',n<vs)});
+ const labels=['🚬 Comenzaste tu camino','🌱 Primer avance: seguí reduciendo','💚 Tu plan ya muestra una reducción importante','💪 Gran avance hacia cero','🏆 Objetivo del plan: cero cigarrillos'];
+ document.getElementById('visualStage').textContent=labels[vs]+(g===0?'':` · Meta actual: ${g}/día`);
+
 
  let t='—';if(d.last){let m=Math.floor((Date.now()-d.last)/60000);t=m<60?m+' min':Math.floor(m/60)+' h '+m%60+' min'}document.getElementById('timer').textContent=t;
 }
