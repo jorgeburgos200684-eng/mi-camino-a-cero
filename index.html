@@ -30,7 +30,7 @@ progress{width:100%;height:15px;accent-color:var(--green)}button{width:100%;bord
 <section class="card">
 <b>🌱 Tu progreso visual</b>
 <p class="muted">La etapa se destaca automáticamente según la meta semanal de tu plan. Es una representación motivacional; los cambios reales de salud varían entre personas.</p>
-<img src="progreso-visual.png" alt="Progreso visual al reducir el tabaco" style="width:100%;border-radius:16px;display:block;margin-top:12px">
+<img src="etapa-0-hoy.png" alt="Progreso visual al reducir el tabaco" style="width:100%;border-radius:16px;display:block;margin-top:12px">
 <div id="stageTrack" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px">
   <div class="vstage" data-stage="0">🚬<small>Inicio</small></div>
   <div class="vstage" data-stage="1">🌱<small>Primer avance</small></div>
@@ -76,6 +76,7 @@ function render(){
  document.querySelectorAll('.vstage').forEach((el,n)=>{el.classList.toggle('active',n===vs);el.classList.toggle('done',n<vs)});
  const labels=['🚬 Comenzaste tu camino','🌱 Primer avance: seguí reduciendo','💚 Tu plan ya muestra una reducción importante','💪 Gran avance hacia cero','🏆 Objetivo del plan: cero cigarrillos'];
  document.getElementById('visualStage').textContent=labels[vs]+(g===0?'':` · Meta actual: ${g}/día`);
+  document.querySelector('img[alt="Progreso visual al reducir el tabaco"]').src=['etapa-0-hoy.png','etapa-1-2-semanas.png','etapa-2-1-mes.png','etapa-3-3-meses.png','etapa-4-1-ano.png'][vs];
 
 
  let t='—';if(d.last){let m=Math.floor((Date.now()-d.last)/60000);t=m<60?m+' min':Math.floor(m/60)+' h '+m%60+' min'}document.getElementById('timer').textContent=t;
